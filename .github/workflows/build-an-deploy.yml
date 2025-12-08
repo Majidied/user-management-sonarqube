@@ -59,7 +59,10 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
         run: |
-          mvn -B verify sonar:sonar -Dsonar.project.settings=./sonar-project.properties
+          mvn -B verify sonar:sonar \
+            -Dsonar.project.settings=./sonar-project.properties \
+            -Dsonar.host.url="$SONAR_HOST_URL" \
+            -Dsonar.token="$SONAR_TOKEN"
 
         # Build Docker image
       - name: Build Docker image
