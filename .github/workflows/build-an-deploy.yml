@@ -30,7 +30,7 @@ jobs:
           INSTALL_DIR="$HOME/maven/apache-maven-$MAVEN_VERSION"
           mkdir -p "$HOME/maven"
           if [ ! -d "$INSTALL_DIR" ]; then
-            curl -fsSL "https://downloads.apache.org/maven/maven-3/$MAVEN_VERSION/binaries/apache-maven-$MAVEN_VERSION-bin.tar.gz" -o maven.tar.gz
+            curl -fsSL "https://archive.apache.org/dist/maven/maven-3/$MAVEN_VERSION/binaries/apache-maven-$MAVEN_VERSION-bin.tar.gz" -o maven.tar.gz
             tar -xzf maven.tar.gz -C "$HOME/maven"
             rm maven.tar.gz
           fi
