@@ -24,10 +24,18 @@ jobs:
           java-version: 21
 
       - name: Setup Maven
-        shell: powershell
+        shell: bash
         run: |
-          echo "MAVEN_HOME=$env:USERPROFILE\maven\apache-maven-3.8.8" >> $env:GITHUB_ENV
-          echo "$env:USERPROFILE\maven\apache-maven-3.8.8\bin" >> $env:GITHUB_PATH
+          MAVEN_VERSION=3.8.8
+          INSTALL_DIR="$HOME/maven/apache-maven-$MAVEN_VERSION"
+          mkdir -p "$HOME/maven"
+          if [ ! -d "$INSTALL_DIR" ]; then
+            curl -fsSL "https://downloads.apache.org/maven/maven-3/$MAVEN_VERSION/binaries/apache-maven-$MAVEN_VERSION-bin.tar.gz" -o maven.tar.gz
+            tar -xzf maven.tar.gz -C "$HOME/maven"
+            rm maven.tar.gz
+          fi
+          echo "MAVEN_HOME=$INSTALL_DIR" >> "$GITHUB_ENV"
+          echo "$INSTALL_DIR/bin" >> "$GITHUB_PATH"
         #      - name: Setup Maven
         #        shell: powershell
         #        run: |
@@ -52,7 +60,6 @@ jobs:
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
         run: |
           mvn -B verify sonar:sonar -Dsonar.project.settings=./sonar-project.properties
-        shell: cmd
 
         # Build Docker image
       - name: Build Docker image
@@ -61,7 +68,6 @@ jobs:
 
         # Push Docker image to DockerHub or other container registry
       - name: Log in to DockerHub
-        shell: powershell
         run: |
           docker login -u "${{ secrets.DOCKER_USERNAME }}" -p "${{ secrets.DOCKER_PASSWORD }}"
       - name: Push Docker image
