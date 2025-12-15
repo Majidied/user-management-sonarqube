@@ -67,7 +67,7 @@ jobs:
         # Build Docker image
       - name: Build Docker image
         run: |
-          docker build -t carikk/quality-gate:latest .
+          docker build -t majidied/user-management-sonarqube:latest .
 
         # Push Docker image to DockerHub or other container registry
       - name: Log in to DockerHub
