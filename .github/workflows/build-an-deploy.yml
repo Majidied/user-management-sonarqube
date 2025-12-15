@@ -75,7 +75,7 @@ jobs:
           docker login -u "${{ secrets.DOCKER_USERNAME }}" -p "${{ secrets.DOCKER_PASSWORD }}"
       - name: Push Docker image
         run: |
-          docker push carikk/quality-gate:latest
+          docker push majidied/user-management-sonarqube:latest
 
       # Set up kubeconfig from secret
       - name: Set up kubeconfig
