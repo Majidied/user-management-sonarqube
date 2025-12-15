@@ -90,6 +90,7 @@ jobs:
           kubectl config current-context
           kubectl get namespaces
 
+
       - name: Deploy to kube
         run: |
           kubectl apply -f k8s/deployment.yaml
