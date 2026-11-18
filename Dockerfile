@@ -1,14 +1,21 @@
-# Utiliser une image de base OpenJDK
-FROM eclipse-temurin:21-jdk
+# syntax=docker/dockerfile:1
 
-# Créer un répertoire de travail
+FROM maven:3.9-eclipse-temurin-21 AS builder
+WORKDIR /build
+
+COPY pom.xml .
+RUN mvn -B dependency:go-offline
+
+COPY src ./src
+RUN mvn -B package -DskipTests
+
+FROM eclipse-temurin:21-jre-alpine
 WORKDIR /app
 
-# Copier le fichier jar généré dans le conteneur Docker
-COPY target/user-management.jar app.jar
+RUN addgroup -S appgroup && adduser -S appuser -G appgroup
+COPY --from=builder /build/target/user-management.jar app.jar
 
-# Exposer le port sur lequel l'application sera disponible
+USER appuser
 EXPOSE 8080
 
-# Commande pour exécuter l'application
 ENTRYPOINT ["java", "-jar", "app.jar"]

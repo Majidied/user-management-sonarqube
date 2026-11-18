@@ -30,3 +30,12 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Environment & OS ###
+.env
+.env.*
+!.env.example
+.DS_Store
+
+### Local Audit Notes ###
+REPO_AUDIT.md
